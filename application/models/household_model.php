@@ -30,6 +30,8 @@ class Household_model extends CI_Model {
         $data = array (
             'first_name' => $this->input->post('first_name'),
             'last_name' => $this->input->post('last_name'),
+            'proxy_first_name' => $this->input->post('proxy_first_name'),
+            'proxy_last_name' => $this->input->post('proxy_last_name'),
             'address' => $this->input->post('address'),
             'phone' => $this->input->post('phone'),
             'food_stamps' => $this->input->post('food_stamps'),

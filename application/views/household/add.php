@@ -21,6 +21,18 @@
 </fieldset>
 
 <fieldset>
+	<label for="proxy_first_name">Proxy First Name</label>
+	<input type="input" name="proxy_first_name"
+		value="<? echo set_value('proxy_first_name'); ?>"/>
+</fieldset>
+
+<fieldset>
+	<label for="last_name">Proxy Last Name</label>
+	<input type="input" name="proxy_last_name"
+		value="<? echo set_value('proxy_last_name'); ?>"/>
+</fieldset>
+
+<fieldset>
 	<label for="address">Address</label>
 	<input type="input" name="address"
 		value="<? echo set_value('address'); ?>"/>

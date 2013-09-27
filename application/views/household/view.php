@@ -22,6 +22,14 @@ function format_bool ($bool) {
 		?>
 	</h1>
 	<dl>
+        <? if (!empty($household['proxy_first_name']) ||
+            !empty($household['proxy_last_name'])): ?>
+
+            <dt>Proxy</dt>
+            <dd><? echo $household['proxy_first_name'] . ' ' .
+                $household['proxy_last_name']; ?></dd>
+        <? endif; ?>
+
         <dt>Address</dt>
         <dd><? echo $household['address']; ?></dd>
 
