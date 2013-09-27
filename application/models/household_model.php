@@ -53,6 +53,15 @@ class Household_model extends CI_Model {
             }
         }
 
+        $income_sources = $this->input->post('income_sources');
+        foreach ($income_sources as $income_source) {
+            $data = array (
+                'household_id' => $household_id,
+                'income_source_id' => $income_source
+            );
+            $this->db->insert('household_income_source', $data);
+        }
+
         $this->db->trans_complete();
 
         return $household_id;
@@ -74,6 +83,21 @@ class Household_model extends CI_Model {
         $query = $this->db->query('SELECT * FROM age_range');
         return $query->result_array();
     }
+
+    public function get_income_sources () {
+        $query = $this->db->query('SELECT * FROM income_source');
+        return $query->result_array();
+    }
+
+	public function get_household_income_sources ($id = NULL) {
+        $sql = "SELECT income_source
+                FROM income_source
+                  JOIN household_income_source
+                    ON (income_source.income_source_id = household_income_source.income_source_id)
+		        WHERE household_id = ?";
+		$query = $this->db->query($sql, array($id));
+        return $query->result_array();
+	}
 }
 
 ?>

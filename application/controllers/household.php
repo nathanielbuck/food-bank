@@ -20,6 +20,8 @@ class Household extends CI_Controller {
         $data['household'] = $this->household_model->get_household($id);
         $data['household_members'] =
             $this->household_model->get_household_members($id);
+		$data['income_sources'] =
+			$this->household_model->get_household_income_sources($id);
 
         if (empty($data['household'])) {
             show_404();
@@ -39,6 +41,7 @@ class Household extends CI_Controller {
 
         $data['title'] = 'Add a New Household';
         $data['age_ranges'] = $this->household_model->get_age_ranges();
+        $data['income_sources'] = $this->household_model->get_income_sources();
 
         $this->form_validation->set_rules('first_name', 'First Name', 'required'); 
         $this->form_validation->set_rules('last_name', 'Last Name', 'required'); 
@@ -65,7 +68,7 @@ class Household extends CI_Controller {
 		$household_id = $this->household_model->add_household(
 			$data['age_ranges']);
 
-		$this->view($household_id);
+		redirect('household/' . $household_id);
     }
 }
 ?>

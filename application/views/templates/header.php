@@ -10,5 +10,6 @@
 		<meta name="description" content="" />
 
 		<link rel="stylesheet" type="text/css" href="css/screen.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/lib/chosen/chosen.css" />
 	</head>
 	<body>

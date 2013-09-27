@@ -57,4 +57,19 @@ function format_bool ($bool) {
     ?>
     </dl>
 <? endif; ?>
+
+<? if (count($income_sources) > 0): ?>
+    <h2>Income Sources</h2>
+    <ul>
+    <?
+        foreach ($income_sources as $income_source):
+    ?>
+            <li>
+                <? echo $income_source['income_source']; ?>
+            </li>
+    <?
+        endforeach;
+    ?>
+    </ul>
+<? endif; ?>
 </div>

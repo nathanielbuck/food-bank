@@ -52,7 +52,9 @@
 
 <fieldset>
 	<label for="veteran">Number of Veterans</label>
-	<input type="input" name="veteran"
+	<input
+		type="input"
+		name="veteran"
 		value="<? echo set_value('veteran'); ?>"/>
 </fieldset>
 
@@ -67,5 +69,23 @@
             $age_range['age_range_id']); ?>"/>
 </fieldset>
 <?php endforeach; ?>
+
+<fieldset>
+	<label for="income_sources[]">Income Sources</label>
+	<select name="income_sources[]" data-placeholder="Select income sources..." multiple="multiple">
+		<?php foreach ($income_sources as $income_source): ?>
+			<option
+					value="<? echo $income_source['income_source_id']; ?>"
+					<? if (!empty($_POST['income_sources']) && in_array(
+							$income_source['income_source_id'],
+							$_POST['income_sources'])): ?>
+						selected="selected"
+					<? endif; ?>
+					>
+				<? echo $income_source['income_source']; ?>
+			</option>
+		<?php endforeach; ?>
+	</select>
+</fieldset>
 
 <input type="submit" name="submit" value="Add Household" />

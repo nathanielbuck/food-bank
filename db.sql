@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 23, 2013 at 08:52 AM
+-- Generation Time: Sep 26, 2013 at 11:26 PM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -20,11 +20,11 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE `age_range` (
-  `age_range_id` int(11) NOT NULL AUTO_INCREMENT,
-  `min_age` tinyint(4) NOT NULL,
-  `max_age` tinyint(4) NOT NULL,
-  PRIMARY KEY (`age_range_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+	  `age_range_id` int(11) NOT NULL AUTO_INCREMENT,
+	  `min_age` tinyint(4) NOT NULL,
+	  `max_age` tinyint(4) NOT NULL,
+	  PRIMARY KEY (`age_range_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `age_range`
@@ -44,16 +44,16 @@ INSERT INTO `age_range` VALUES(6, 60, 127);
 --
 
 CREATE TABLE `household` (
-  `household_id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(64) NOT NULL,
-  `last_name` varchar(64) NOT NULL,
-  `address` varchar(128) NOT NULL,
-  `phone` varchar(10) NOT NULL,
-  `food_stamps` tinyint(4) NOT NULL DEFAULT '0',
-  `disabled` tinyint(4) NOT NULL DEFAULT '0',
-  `veteran` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`household_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+	  `household_id` int(11) NOT NULL AUTO_INCREMENT,
+	  `first_name` varchar(64) NOT NULL,
+	  `last_name` varchar(64) NOT NULL,
+	  `address` varchar(128) NOT NULL,
+	  `phone` varchar(10) NOT NULL,
+	  `food_stamps` tinyint(4) NOT NULL DEFAULT '0',
+	  `disabled` tinyint(4) NOT NULL DEFAULT '0',
+	  `veteran` tinyint(4) NOT NULL DEFAULT '0',
+	  PRIMARY KEY (`household_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
 
 --
 -- Dumping data for table `household`
@@ -66,9 +66,9 @@ CREATE TABLE `household` (
 --
 
 CREATE TABLE `household_age_range` (
-  `household_id` int(11) NOT NULL,
-  `age_range_id` int(11) NOT NULL,
-  `individuals` tinyint(4) NOT NULL
+	  `household_id` int(11) NOT NULL,
+	  `age_range_id` int(11) NOT NULL,
+	  `individuals` tinyint(4) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -82,15 +82,13 @@ CREATE TABLE `household_age_range` (
 --
 
 CREATE TABLE `household_income_source` (
-  `household_id` int(11) NOT NULL,
-  `income_source_id` int(11) NOT NULL,
-  `description` varchar(64) DEFAULT NULL
+	  `household_id` int(11) NOT NULL,
+	  `income_source_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `household_income_source`
 --
-
 
 -- --------------------------------------------------------
 
@@ -99,9 +97,9 @@ CREATE TABLE `household_income_source` (
 --
 
 CREATE TABLE `income_source` (
-  `income_source_id` int(11) NOT NULL AUTO_INCREMENT,
-  `income_source` varchar(64) NOT NULL,
-  PRIMARY KEY (`income_source_id`)
+	  `income_source_id` int(11) NOT NULL AUTO_INCREMENT,
+	  `income_source` varchar(64) NOT NULL,
+	  PRIMARY KEY (`income_source_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
@@ -126,12 +124,11 @@ INSERT INTO `income_source` VALUES(10, 'Food Stamps');
 --
 
 CREATE TABLE `serve` (
-  `household_id` int(11) NOT NULL,
-  `date` date NOT NULL
+	  `household_id` int(11) NOT NULL,
+	  `date` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `serve`
 --
-
 
