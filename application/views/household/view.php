@@ -66,6 +66,13 @@ function format_bool ($bool) {
     </dl>
 <? endif; ?>
 
+<? if (!empty($household['comments'])): ?>
+    <h2>Comments</h2>
+    <pre>
+        <? echo $household['comments']; ?>
+    </pre>
+<? endif; ?>
+
 <? if (count($income_sources) > 0): ?>
     <h2>Income Sources</h2>
     <ul>

@@ -100,4 +100,11 @@
 	</select>
 </fieldset>
 
+<fieldset>
+	<label for="comments">Comments</label>
+	<textarea name="comments"><?
+		echo $this->input->post('comments');
+	?></textarea>
+</fieldset>
+
 <input type="submit" name="submit" value="Add Household" />

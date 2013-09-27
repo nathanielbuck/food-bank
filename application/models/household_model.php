@@ -36,7 +36,8 @@ class Household_model extends CI_Model {
             'phone' => $this->input->post('phone'),
             'food_stamps' => $this->input->post('food_stamps'),
             'disabled' => $this->input->post('disabled'), 
-            'veteran' => $this->input->post('veteran')
+            'veteran' => $this->input->post('veteran'),
+            'comments' => $this->input->post('comments')
         );
         $this->db->insert('household', $data);
         $household_id = $this->db->insert_id();
@@ -56,12 +57,14 @@ class Household_model extends CI_Model {
         }
 
         $income_sources = $this->input->post('income_sources');
-        foreach ($income_sources as $income_source) {
-            $data = array (
-                'household_id' => $household_id,
-                'income_source_id' => $income_source
-            );
-            $this->db->insert('household_income_source', $data);
+        if (!empty($income_sources)) {
+            foreach ($income_sources as $income_source) {
+                $data = array (
+                    'household_id' => $household_id,
+                    'income_source_id' => $income_source
+                );
+                $this->db->insert('household_income_source', $data);
+            }
         }
 
         $this->db->trans_complete();
