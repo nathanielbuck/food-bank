@@ -9,7 +9,10 @@
 		<meta name="author" content="Nathaniel Buck" />
 		<meta name="description" content="" />
 
-		<link rel="stylesheet" type="text/css" href="css/screen.css" />
+		<!--<link rel="stylesheet" type="text/css" href="css/screen.css" /> -->
 		<link rel="stylesheet" type="text/css" href="../../css/lib/chosen/chosen.css" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <script src="../../js/chosen.jquery.js"></script>
 	</head>
 	<body>

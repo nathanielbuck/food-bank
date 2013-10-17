@@ -1,11 +1,11 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
 
 class Household_model extends CI_Model {
 
 	public function __construct () {
 		$this->load->database();
 	}
-
 
 	public function get_household ($id = null) {
         $sql = "SELECT *
@@ -25,7 +25,7 @@ class Household_model extends CI_Model {
         return $query->result_array();
 	}
 
-    public function add_household ($age_ranges) {
+    public function add_household () {
         $this->db->trans_start();
         $data = array (
             'first_name' => $this->input->post('first_name'),
@@ -42,18 +42,20 @@ class Household_model extends CI_Model {
         $this->db->insert('household', $data);
         $household_id = $this->db->insert_id();
 
-        foreach ($age_ranges as $age_range) {
-            $individuals = $this->input->post('age_range' .
-                $age_range['age_range_id']);
-
-            if (!empty($individuals)) {
-                $data = array (
-                    'household_id' => $household_id,
-                    'age_range_id' => $age_range['age_range_id'],
-                    'individuals' => $individuals
-                );
-                $this->db->insert('household_age_range', $data);
-            }
+		$i = 1;
+		$birthday_errors = array();
+		while (!empty($_POST['sex' . $i])) {
+			$bday_parsed = date_parse($_POST['birthday' . $i]);
+            $birthday = $bday_parsed['year'] . '-' .
+                $bday_parsed['month'] . '-' .
+                $bday_parsed['day'];
+            $data = array (
+                'household_id' => $household_id,
+                'birthday' => $birthday,
+                'sex' => $_POST['sex' . $i]
+            );
+            $this->db->insert('household_members', $data);
+            $i++;
         }
 
         $income_sources = $this->input->post('income_sources');
@@ -72,20 +74,22 @@ class Household_model extends CI_Model {
         return $household_id;
     }
 
-	public function get_household_members ($id = NULL) {
-		$sql = "SELECT DISTINCT household_age_range.individuals, age_range.min_age, age_range.max_age
-		        FROM household
-		          JOIN household_age_range
-		            ON (household.household_id = household_age_range.household_id)
-				  JOIN age_range
-		            ON (household_age_range.age_range_id = age_range.age_range_id)
-		        WHERE household.household_id = ?";
+    public function get_household_members ($id) {
+        $sql = "SELECT
+                  DATE_FORMAT(household_members.birthday, '%c/%e/%Y')
+                    AS birthday,
+                  CASE
+                    WHEN household_members.sex = 1
+                      THEN 'Male'
+                    ELSE
+                      'Female'
+                  END AS sex
+                FROM household
+                  JOIN household_members
+                    ON (household.household_id = 
+                      household_members.household_id)
+                WHERE household.household_id = ?";
 		$query = $this->db->query($sql, array($id));
-        return $query->result_array();
-	}
-
-	public function get_age_ranges () {
-        $query = $this->db->query('SELECT * FROM age_range');
         return $query->result_array();
     }
 

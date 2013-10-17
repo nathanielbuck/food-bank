@@ -23,13 +23,15 @@
 <fieldset>
 	<label for="proxy_first_name">Proxy First Name</label>
 	<input type="input" name="proxy_first_name"
-		value="<? echo set_value('proxy_first_name'); ?>"/>
+		value="<? if (!empty($_POST)) {
+			echo $_POST['proxy_first_name']; } ?>"/>
 </fieldset>
 
 <fieldset>
 	<label for="last_name">Proxy Last Name</label>
 	<input type="input" name="proxy_last_name"
-		value="<? echo set_value('proxy_last_name'); ?>"/>
+		value="<? if (!empty($_POST)) {
+			echo $_POST['proxy_last_name']; } ?>"/>
 </fieldset>
 
 <fieldset>
@@ -70,17 +72,50 @@
 		value="<? echo set_value('veteran'); ?>"/>
 </fieldset>
 
-<?php foreach ($age_ranges as $age_range): ?>
+<h3>Members</h3>
+<div class="members">
+<? //var_dump($birthday); ?>
+<?php foreach ($birthday as $i => $b): ?>
 <fieldset>
-	<label for="age_range<? echo $age_range['age_range_id']; ?>">
-		Number of Individuals Ages <? echo $age_range['min_age']; ?> to
-		<? echo $age_range['max_age']; ?>:
-	</label>
-	<input type="input" name="age_range<? echo $age_range['age_range_id']; ?>"
-		value="<? echo set_value('age_range' .
-            $age_range['age_range_id']); ?>"/>
+	<input type="input" name="birthday<? echo $i; ?>"
+		value="<? echo $b; ?>"
+		placeholder="Birthday MM/DD/YYYY"/>
+
+	<select name="sex<? echo $i; ?>"
+		placeholder="Sex">
+		<option <? if (1 == $sex[$i]) {
+			echo('selected="selected"');
+		} ?> value="1">Male</option>
+		<option <? if (2 == $sex[$i]) {
+			echo('selected="selected"');
+		} ?> value="2">Female</option>
+	</select>
 </fieldset>
 <?php endforeach; ?>
+<?php if (0 == count($birthday)): ?>
+<fieldset>
+	<input
+		type="input"
+		name="birthday1"
+		placeholder="Birthday MM/DD/YYYY"/>
+
+	<select name="sex1">
+		<option value="1">Male</option>
+		<option value="2">Female</option>
+	</select>
+</fieldset>
+<?php endif; ?>
+	<a href="#" class="add-member">Add Member</a>
+	<a
+		href="#"
+		class="remove-member"
+		<?php if (count($birthday) <= 1): ?>
+			style="display: none"
+		<?php endif; ?>
+		>Remove</a>
+</div>
+
+<br/>
 
 <fieldset>
 	<label for="income_sources[]">Income Sources</label>
@@ -108,3 +143,34 @@
 </fieldset>
 
 <input type="submit" name="submit" value="Add Household" />
+<script>
+	$('.add-member').click(function (e) {
+		var $last_fieldset = $(this).closest('.members').find('fieldset:last');
+		var $new_fieldset = $last_fieldset.clone();
+
+		var $input = $new_fieldset.find('input');
+		var $select = $new_fieldset.find('select');
+
+		var input_num = $input.attr('name').replace(/[A-Za-z$-]/g, '');
+		input_num++;
+
+		$input
+			.attr('name', 'birthday' + input_num)
+			.val('');
+		$select
+			.attr('name', 'sex' + input_num)
+			.val(1);
+
+		$last_fieldset.after($new_fieldset);
+		$('.remove-member').show();
+		e.preventDefault();
+	});
+	$('.remove-member').click(function (e) {
+		var $members = $(this).closest('.members');
+		$members.find('fieldset:last').remove();
+		if (1 == $members.find('fieldset').length) {
+			$('.remove-member').hide();
+		}
+		e.preventDefault();
+	});
+</script>

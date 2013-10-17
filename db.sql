@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 26, 2013 at 11:44 PM
+-- Generation Time: Sep 30, 2013 at 03:35 AM
 -- Server version: 5.1.44
 -- PHP Version: 5.3.2
 
@@ -12,30 +12,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `sonshine_food`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `age_range`
---
-
-CREATE TABLE `age_range` (
-  `age_range_id` int(11) NOT NULL AUTO_INCREMENT,
-  `min_age` tinyint(4) NOT NULL,
-  `max_age` tinyint(4) NOT NULL,
-  PRIMARY KEY (`age_range_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
-
---
--- Dumping data for table `age_range`
---
-
-INSERT INTO `age_range` VALUES(1, 0, 5);
-INSERT INTO `age_range` VALUES(2, 6, 12);
-INSERT INTO `age_range` VALUES(3, 13, 17);
-INSERT INTO `age_range` VALUES(4, 18, 34);
-INSERT INTO `age_range` VALUES(5, 35, 59);
-INSERT INTO `age_range` VALUES(6, 60, 127);
 
 -- --------------------------------------------------------
 
@@ -56,27 +32,12 @@ CREATE TABLE `household` (
   `veteran` tinyint(4) NOT NULL DEFAULT '0',
   `comments` text,
   PRIMARY KEY (`household_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `household`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `household_age_range`
---
-
-CREATE TABLE `household_age_range` (
-  `household_id` int(11) NOT NULL,
-  `age_range_id` int(11) NOT NULL,
-  `individuals` tinyint(4) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `household_age_range`
---
 
 -- --------------------------------------------------------
 
@@ -92,6 +53,24 @@ CREATE TABLE `household_income_source` (
 --
 -- Dumping data for table `household_income_source`
 --
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `household_members`
+--
+
+CREATE TABLE `household_members` (
+  `household_id` int(11) NOT NULL,
+  `birthday` date NOT NULL,
+  `sex` char(1) NOT NULL COMMENT '1=male, 2=female'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `household_members`
+--
+
 
 -- --------------------------------------------------------
 
@@ -134,4 +113,5 @@ CREATE TABLE `serve` (
 --
 -- Dumping data for table `serve`
 --
+
 

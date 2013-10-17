@@ -46,31 +46,19 @@ function format_bool ($bool) {
         <dd><? echo $household['veteran']; ?></dd>
 	</dl>
 
-<? if (count($household_members) > 0): ?>
-    <h2>Number of Household Members</h2>
-    <dl>
-    <?
-        foreach ($household_members as $household_member):
-    ?>
-            <dl>
-                Ages
-                <? echo $household_member['min_age']; ?> &ndash;
-                <? echo $household_member['max_age']; ?>
-            </dl>
-            <dd>
-                <? echo $household_member['individuals']; ?>
-            </dd>
-    <?
-        endforeach;
-    ?>
-    </dl>
-<? endif; ?>
+<h2>Household Members &ndash; Birthday and Sex</h2>
+<ul>
+<? foreach ($household_members as $household_member): ?>
+    <li>
+        <? echo $household_member['sex']; ?> &ndash;
+        <? echo $household_member['birthday']; ?>
+    </li>
+<? endforeach; ?>
+</ul>
 
 <? if (!empty($household['comments'])): ?>
     <h2>Comments</h2>
-    <pre>
-        <? echo $household['comments']; ?>
-    </pre>
+    <pre><? echo $household['comments']; ?></pre>
 <? endif; ?>
 
 <? if (count($income_sources) > 0): ?>

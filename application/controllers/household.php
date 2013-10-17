@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
 
 class Household extends CI_Controller {
 
@@ -40,7 +41,6 @@ class Household extends CI_Controller {
         $this->load->library('form_validation');
 
         $data['title'] = 'Add a New Household';
-        $data['age_ranges'] = $this->household_model->get_age_ranges();
         $data['income_sources'] = $this->household_model->get_income_sources();
 
         $this->form_validation->set_rules('first_name', 'First Name', 'required'); 
@@ -51,22 +51,44 @@ class Household extends CI_Controller {
         $this->form_validation->set_rules('disabled', 'Number of Disabled Indivuals', 'numeric'); 
         $this->form_validation->set_rules('veteran', 'Number of Veterans', 'numeric'); 
 
-        foreach ($data['age_ranges'] as $age_range) {
-			$this->form_validation->set_rules('age_range' .
-				$age_range['age_range_id'], 'Age Range ' . 
-				$age_range['min_age'] . ' to ' .
-				$age_range['max_age'], 'numeric'); 
-        }
+		$birthday = array();
+    	$sex = array();
+		$i = 1;
+		$birthday_errors = array();
+		while (!empty($_POST['sex' . $i])) {
+			$bday_post = $_POST['birthday' . $i];
+			$bday_parsed = date_parse($bday_post);
+			if (!empty($bday_parsed['errors'])) {
+				$birthday_errors['birthday' . $i] = 'Household member ' .  $i .
+					'\'s birthday is not ' . 'formatted correctly.';
+				$birthday[$i] = $_POST['birthday' . $i];
+				$sex[$i] = $_POST['sex' . $i];
+			}
+			else {
+				$birthday[$i] = $bday_parsed['month'] . '/' . $bday_parsed['day'] .
+					'/' . $bday_parsed['year'];
+				$sex[$i] = $_POST['sex' . $i];
+			}
+			$i++;
+		}
+		$data['birthday'] = $birthday;
+		$data['sex'] = $sex;
 
-        if (FALSE === $this->form_validation->run()) {
+		if (FALSE === $this->form_validation->run() ||
+			!empty($birthday_errors)) {
+			$CI =& get_instance();
+			$CI->form_validation->_error_array =
+				array_merge(
+					$CI->form_validation->_error_array,
+					$birthday_errors);
+
             $this->load->view('templates/header', $data);
             $this->load->view('household/add');
             $this->load->view('templates/footer');
             return;
         }
 
-		$household_id = $this->household_model->add_household(
-			$data['age_ranges']);
+		$household_id = $this->household_model->add_household();
 
 		redirect('household/' . $household_id);
     }
