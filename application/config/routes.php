@@ -40,8 +40,11 @@
 
 $route['404_override'] = '';
 
+$route['ajax/serve_household'] = 'ajax/serve_household';
+
 $route['household/add'] = 'household/add';
 $route['household/edit/(:any)'] = 'household/edit/$1';
+$route['households/reports'] = 'report';
 $route['household/(:any)'] = 'household/view/$1';
 $route['households'] = 'household';
 $route['default_controller'] = 'login';

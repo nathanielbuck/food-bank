@@ -1,5 +1,7 @@
 <nav>
     <a href="../households">All Households</a>
+<br/>
+    <a href="../households/reports">Reports</a>
 </nav>
 
 <h1>Add a Household</h1>
