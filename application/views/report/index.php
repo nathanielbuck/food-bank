@@ -10,27 +10,24 @@
 	<span class="year"><? echo $year; ?></span>
 </h1>
 
-<select name="month" data-placeholder="Month">
-<!--
-	<option value="1">January</option>
-	<option value="2">February</option>
-	<option value="3">March</option>
-	<option value="4">April</option>
-	<option value="5">May</option>
-	<option value="6">June</option>
-	<option value="7">July</option>
-	<option value="8">August</option>
-	<option value="9">September</option>
--->
-	<option value="10" selected="selected">October</option>
-<!--
-	<option value="11">November</option>
-	<option value="12">December</option>
--->
+<select name="month" data-placeholder="Month" class="report-date">
+    <? foreach ($months as $v => $m) {
+        $selected = '';
+        if ($month == $v) {
+            $selected = ' selected="selected" ';
+        }
+        echo '<option value="' . $v . '" ' . $selected . '>' . $m . '</option>';
+    }?>
 </select>
 
-<select name="year" data-placeholder="Year">
-	<option value="2013" selected="selected">2013</option>
+<select name="year" data-placeholder="Year" class="report-date">
+    <? for ($y = $start_year; $y <= $year + 1; $y++) {
+        $selected = '';
+        if ($year == $y) {
+            $selected = ' selected="selected" ';
+        }
+        echo '<option value="' . $y . '" ' . $selected . '>' . $y . '</option>';
+    }?>
 </select>
 
 

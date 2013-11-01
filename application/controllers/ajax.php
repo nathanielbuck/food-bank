@@ -26,6 +26,24 @@ class Ajax extends CI_Controller {
 
 		echo '0';
 	}
+
+	public function get_report() {
+		if (empty($_POST)) {
+			return;
+		}
+
+		$this->load->model('report_model');
+
+		$month = trim($_POST['month']);
+		$year = trim($_POST['year']);
+
+		$data['present_households'] =
+			$this->report_model->get_present_households($month, $year);
+		$data['absent_households'] = 
+			$this->report_model->get_absent_households($month, $year);
+
+		echo json_encode($data);
+	}
 }
 
 ?>

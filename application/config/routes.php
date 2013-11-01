@@ -41,6 +41,7 @@
 $route['404_override'] = '';
 
 $route['ajax/serve_household'] = 'ajax/serve_household';
+$route['ajax/get_report'] = 'ajax/get_report';
 
 $route['household/add'] = 'household/add';
 $route['household/edit/(:any)'] = 'household/edit/$1';

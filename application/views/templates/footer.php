@@ -34,6 +34,54 @@
                     }
                 );
 		    });
+        $('select.report-date').change(function () {
+            $('.present_households').html('');
+		    $('select[name="households_absent"]').html('');
+
+	        var month = $('select[name="month"] option:selected').val();
+	        var year = $('select[name="year"] option:selected').val();
+
+	        $.post(
+	            '../ajax/get_report',
+	            {
+	                'month': month,
+                    'year': year
+	            },
+                function (response) {
+                    if (response) {
+                        var json = $.parseJSON(response);
+                        add_absent_households(json.absent_households);
+                        prepend_households(json.present_households);
+                    }
+                    else {
+                        alert('There was an error.');
+                    }
+                }
+            );
+        });
+        function add_absent_households(households) {
+            for (var i = 0; i < households.length; i++) {
+                var household = households[i];
+
+                $('<option>')
+                    .attr('val', household.household_id)
+                    .text(household.first_name + ' ' + household.last_name)
+                        .appendTo('select[name="households_absent"]');
+                $('select[name="households_absent"]')
+                    .trigger('chosen:updated');
+            }
+        }
+        function prepend_households(households) {
+            for (var i = 0; i < households.length; i++) {
+                var household = households[i];
+
+                $('<li>').html(
+                    $('<a>')
+                        .attr('href', '../household/' + household.household_id)
+                        .text(household.first_name + ' ' + household.last_name))
+                    .prependTo('.present_households');
+            }
+        }
 	</script>
 	</body>
 </html>
