@@ -37,10 +37,24 @@ class Report extends CI_Controller {
 		$data['absent_households'] = 
 			$this->report_model->get_absent_households($month, $year);
 
+		$data['report'] = self::generate_report($month, $year);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('report/index', $data);
 		$this->load->view('templates/footer');
 	}
+
+	public function generate_report($month, $year) {
+		$report = $this->report_model->get_monthly_report($month, $year);
+
+		$report['new_individuals'] =
+			$this->report_model->new_individuals($month, $year);
+		$report['new_households'] =
+			$this->report_model->new_households($month, $year);
+		$report['households_year_to_date'] =
+			$this->report_model->households_year_to_date($month, $year);
+
+		return $report;
+	} 
 }
 ?>

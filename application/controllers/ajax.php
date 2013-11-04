@@ -1,14 +1,18 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
+include('report.php');
 
 class Ajax extends CI_Controller {
+
+	public function __construct () {
+		parent::__construct();
+		$this->load->model('report_model');
+	}
 
 	public function serve_household() {
 		if (empty($_POST)) {
 			return;
 		}
-
-		$this->load->model('report_model');
 
 		$household_id = trim($_POST['household_id']);
 		$month = trim($_POST['month']);
@@ -32,8 +36,6 @@ class Ajax extends CI_Controller {
 			return;
 		}
 
-		$this->load->model('report_model');
-
 		$month = trim($_POST['month']);
 		$year = trim($_POST['year']);
 
@@ -42,7 +44,16 @@ class Ajax extends CI_Controller {
 		$data['absent_households'] = 
 			$this->report_model->get_absent_households($month, $year);
 
-		echo json_encode($data);
+		$report = $this->report_model->get_monthly_report($month, $year);
+
+		$report['new_individuals'] =
+			$this->report_model->new_individuals($month, $year);
+		$report['new_households'] =
+			$this->report_model->new_households($month, $year);
+		$report['households_year_to_date'] =
+			$this->report_model->households_year_to_date($month, $year);
+
+		echo json_encode(array_merge($data, $report));
 	}
 }
 
