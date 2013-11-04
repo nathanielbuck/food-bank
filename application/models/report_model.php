@@ -95,19 +95,19 @@ class Report_model extends CI_Model {
 	                 JOIN serve ON (household_members.household_id = serve.household_id)
                      WHERE sex = '2' AND date = ?) AS female,
                     CASE
-                      WHEN SUM(DISTINCT disabled) IS NULL
+                      WHEN SUM(disabled) IS NULL
                         THEN '0'
                       ELSE
                         SUM(DISTINCT disabled)
                     END AS disabled,
                     CASE
-                      WHEN SUM(DISTINCT veteran) IS NULL
+                      WHEN SUM(veteran) IS NULL
                         THEN '0'
                       ELSE
                         SUM(DISTINCT veteran)
                     END AS veteran,
                     CASE
-                      WHEN SUM(DISTINCT food_stamps) IS NULL
+                      WHEN SUM(food_stamps) IS NULL
                         THEN '0'
                       ELSE
                         SUM(DISTINCT food_stamps)

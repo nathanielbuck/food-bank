@@ -106,5 +106,7 @@
         <dd id="new-households"><? echo $report['new_households']; ?></dd>
         <dt>12. Households &ndash; Year to Date</dt>
         <dd id="households-year-to-date"><? echo $report['households_year_to_date']; ?></dd>
+        <dt>13. Households Receiving SNAP Benefits (Food Stamps)</dt>
+        <dd id="food-stamps"><? echo $report['food_stamps']; ?></dd>
     </dl>
 </div>

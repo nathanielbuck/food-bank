@@ -116,6 +116,7 @@
             $('#total-households').text(data.total_households);
             $('#new-households').text(data.new_households);
             $('#households-year-to-date').text(data.households_year_to_date);
+            $('#food-stamps').text(data.food_stamps);
         }
 	</script>
 	</body>
