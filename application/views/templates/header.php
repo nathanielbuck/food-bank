@@ -9,10 +9,13 @@
 		<meta name="author" content="Nathaniel Buck" />
 		<meta name="description" content="" />
 
-		<link rel="stylesheet" href="../../css/screen.css" />
-		<link rel="stylesheet" href="../../css/lib/chosen/chosen.css" />
+		<link rel="stylesheet" href="/sonshine_food/css/screen.css" />
+		<link rel="stylesheet" href="/sonshine_food/css/lib/chosen/chosen.css" />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<!--
         <script src="../../js/chosen.jquery.js"></script>
+-->
+        <script src="/sonshine_food/js/chosen.jquery.js"></script>
 	</head>
 	<body>

@@ -1,7 +1,9 @@
 <nav>
     <a href="../households">All Households</a>
     <br/>
-    <a href="../household/add">Add Households</a>
+    <a href="../household/add">Add Household</a>
+    <br/>
+    <a href="../households/reports">Reports</a>
 </nav>
 
 <?php
@@ -21,6 +23,8 @@ function format_bool ($bool) {
 			$household['last_name'];
 		?>
 	</h1>
+	<a class="edit-link" href="edit/<? echo $household['household_id']; ?>">Edit</a>
+
 	<dl>
         <? if (!empty($household['proxy_first_name']) ||
             !empty($household['proxy_last_name'])): ?>
@@ -33,8 +37,10 @@ function format_bool ($bool) {
         <dt>Address</dt>
         <dd><? echo $household['address']; ?></dd>
 
-        <dt>Phone</dt>
-        <dd><? echo $household['phone']; ?></dd>
+		<? if (!empty($household['phone'])): ?>
+			<dt>Phone</dt>
+			<dd><? echo $household['phone']; ?></dd>
+        <? endif; ?>
 
         <dt>Collects Food Stamps?</dt>
         <dd><? echo format_bool($household['food_stamps']); ?></dd>

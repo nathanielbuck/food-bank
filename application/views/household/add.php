@@ -1,51 +1,66 @@
 <nav>
     <a href="../households">All Households</a>
-<br/>
+    <br/>
+	<? if (!empty($household)): ?>
+    <a href="add">Add Household</a>
+	<br/>
+	<? endif; ?>
     <a href="../households/reports">Reports</a>
 </nav>
 
-<h1>Add a Household</h1>
+<h1><? echo $title; ?></h1>
 
 <?php echo validation_errors(); ?>
 
 <?php echo form_open('household/add'); ?>
 
+<input type="hidden" name="household_id"
+		value="<? echo $household['household_id']; ?>"/>
+
 <fieldset>
 	<label for="first_name">First Name</label>
 	<input type="input" name="first_name"
-		value="<? echo set_value('first_name'); ?>"/>
+		value="<? echo set_value('first_name',
+			isset($household['first_name']) ? $household['first_name'] : ''); ?>"/>
 </fieldset>
 
 <fieldset>
 	<label for="last_name">Last Name</label>
 	<input type="input" name="last_name"
-		value="<? echo set_value('last_name'); ?>"/>
+		value="<? echo set_value('last_name',
+			isset($household['last_name']) ? $household['last_name'] : ''); ?>"/>
 </fieldset>
 
 <fieldset>
 	<label for="proxy_first_name">Proxy First Name</label>
 	<input type="input" name="proxy_first_name"
 		value="<? if (!empty($_POST)) {
-			echo $_POST['proxy_first_name']; } ?>"/>
+			echo $_POST['proxy_first_name']; }
+		else if (!empty($household['proxy_first_name'])) {
+			echo $household['proxy_first_name']; } ?>"/>
 </fieldset>
 
 <fieldset>
 	<label for="last_name">Proxy Last Name</label>
 	<input type="input" name="proxy_last_name"
 		value="<? if (!empty($_POST)) {
-			echo $_POST['proxy_last_name']; } ?>"/>
+			echo $_POST['proxy_last_name']; }
+		else if (!empty($household['proxy_last_name'])) {
+			echo $household['proxy_last_name']; } ?>"/>
 </fieldset>
 
 <fieldset>
 	<label for="address">Address</label>
 	<input type="input" name="address"
-		value="<? echo set_value('address'); ?>"/>
+		value="<? echo set_value('address',
+			isset($household['address']) ? $household['address'] : ''); ?>"/>
 </fieldset>
 
 <fieldset>
 	<label for="phone">Phone Number</label>
 	<input type="input" name="phone"
-		value="<? echo set_value('phone'); ?>"/>
+		value="<? echo set_value('phone',
+			isset($household['phone']) ? $household['phone'] : ''); ?>"/>
 </fieldset>
 
 <fieldset>
@@ -53,17 +68,24 @@
 
 	 <label for="food_stamps">Yes</label>
 	 <input type="radio" name="food_stamps" value="1"
-		<? echo set_radio('food_stamps', '1'); ?>/>
+		<? echo set_radio('food_stamps', '1');
+			if ('1' == $household['food_stamps']) {
+				echo 'checked="checked"';
+			} ?>/>
 
 	<label for="food_stamps">No</label>
 	<input type="radio" name="food_stamps" value="0"
-		<? echo set_radio('food_stamps', '0'); ?>/>
+		<? echo set_radio('food_stamps', '0');
+			if ('0' == $household['food_stamps']) {
+				echo 'checked="checked"';
+			} ?> />
 </fieldset>
 
 <fieldset>
 	<label for="disabled">Number of Disabled Individuals</label>
 	<input type="input" name="disabled"
-		value="<? echo set_value('disabled'); ?>"/>
+		value="<? echo set_value('disabled',
+			isset($household['disabled']) ? $household['disabled'] : ''); ?>"/>
 </fieldset>
 
 <fieldset>
@@ -71,7 +93,8 @@
 	<input
 		type="input"
 		name="veteran"
-		value="<? echo set_value('veteran'); ?>"/>
+		value="<? echo set_value('veteran',
+			isset($household['veteran']) ? $household['veteran'] : ''); ?>"/>
 </fieldset>
 
 <h3>Members</h3>
@@ -107,6 +130,7 @@
 	</select>
 </fieldset>
 <?php endif; ?>
+	
 	<a href="#" class="add-member">Add Member</a>
 	<a
 		href="#"
@@ -125,9 +149,12 @@
 		<?php foreach ($income_sources as $income_source): ?>
 			<option
 					value="<? echo $income_source['income_source_id']; ?>"
-					<? if (!empty($_POST['income_sources']) && in_array(
+					<? if ((!empty($_POST['income_sources']) && in_array(
 							$income_source['income_source_id'],
-							$_POST['income_sources'])): ?>
+							$_POST['income_sources'])) ||
+							(!empty($household_income_sources) &&
+							in_array($income_source['income_source'],
+							$household_income_sources))): ?>
 						selected="selected"
 					<? endif; ?>
 					>
@@ -140,11 +167,16 @@
 <fieldset>
 	<label for="comments">Comments</label>
 	<textarea name="comments"><?
-		echo $this->input->post('comments');
+		if (!empty($_POST)) {
+			echo $_POST('comments');
+		}
+		else {
+			echo $household['comments']; 
+		}
 	?></textarea>
 </fieldset>
 
-<input type="submit" name="submit" value="Add Household" />
+<input type="submit" name="submit" value="<? echo $button_text; ?>" />
 <script>
 	$('.add-member').click(function (e) {
 		var $last_fieldset = $(this).closest('.members').find('fieldset:last');

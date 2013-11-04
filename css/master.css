@@ -3,9 +3,11 @@ body {
 	background: rgba(0, 0, 0, 1);
 	font-size: 62.5%; /* 10px/16px */
 }
+/*
 li.search-choice {
 	display: none;
 }
+*/
 .primary {
 	float: left;
 	width: 32%;
@@ -13,3 +15,14 @@ li.search-choice {
 .secondary {
 	margin-left: 40%;
 }
+#household h1 {
+	float: left;
+}
+.edit-link {
+	line-height: 5em;
+	margin-left: 1em;
+}
+#household dl {
+	clear: left;
+}
+

@@ -25,7 +25,7 @@ class Household_model extends CI_Model {
         return $query->result_array();
 	}
 
-    public function add_household () {
+    public function add_household ($id = NULL) {
         $this->db->trans_start();
         $data = array (
             'first_name' => $this->input->post('first_name'),
@@ -39,8 +39,21 @@ class Household_model extends CI_Model {
             'veteran' => $this->input->post('veteran'),
             'comments' => $this->input->post('comments')
         );
-        $this->db->insert('household', $data);
-        $household_id = $this->db->insert_id();
+
+        if (empty($id)) {
+            $this->db->insert('household', $data);
+            $id = $this->db->insert_id();
+        }
+        else {
+            $this->db->where('household_id', $id);
+            $this->db->update('household', $data);
+
+            $this->db->where('household_id', $id);
+            $this->db->delete('household_members');
+
+            $this->db->where('household_id', $id);
+            $this->db->delete('household_income_source');
+        }
 
 		$i = 1;
 		$birthday_errors = array();
@@ -50,10 +63,11 @@ class Household_model extends CI_Model {
                 $bday_parsed['month'] . '-' .
                 $bday_parsed['day'];
             $data = array (
-                'household_id' => $household_id,
+                'household_id' => $id,
                 'birthday' => $birthday,
                 'sex' => $_POST['sex' . $i]
             );
+
             $this->db->insert('household_members', $data);
             $i++;
         }
@@ -62,7 +76,7 @@ class Household_model extends CI_Model {
         if (!empty($income_sources)) {
             foreach ($income_sources as $income_source) {
                 $data = array (
-                    'household_id' => $household_id,
+                    'household_id' => $id,
                     'income_source_id' => $income_source
                 );
                 $this->db->insert('household_income_source', $data);
@@ -71,7 +85,11 @@ class Household_model extends CI_Model {
 
         $this->db->trans_complete();
 
-        return $household_id;
+        return $id;
+    }
+
+    public function save_household ($id) {
+        self::add_household($id);
     }
 
     public function get_household_members ($id) {
